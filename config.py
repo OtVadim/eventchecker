@@ -1,0 +1,6 @@
+host = "120.0.0.1"
+user = "postgres"
+password = "qwerty"
+db_name = "post_users"
+user_id = "user_id"
+user_mail = "mail"
