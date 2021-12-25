@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from app import db
+from learn_app import db
 
 db = SQLAlchemy()
 
