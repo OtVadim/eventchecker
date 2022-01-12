@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>{{ page_title }}</title>
+    </head>
+    <body>
+        <form action="" method="post">
+            {{ log_form.hidden_tag() }}
+            <p>
+                {{ log_form.username.label }}<br>{{ log_form.username() }}
+            </p>
+            <p>
+                {{ log_form.email.label }}<br>{{ log_form.email() }}
+            </p>
+            <p>
+                {{ log_form.password.label }}<br>{{ log_form.password() }}
+            </p>
+            <p>{{ log_form.submit }}</p>
+            <a href="{{ url_for('registration') }}">Registration</a>
+        </form>
+    </body>
+</html>
