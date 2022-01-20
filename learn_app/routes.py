@@ -29,7 +29,7 @@ def registration():
         db.session.add(user)
         db.session.commit()
         flash('Registered user!')
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
     else:
         print('error')
     return render_template('register.html', page_title = reg_title, form=reg_form)
