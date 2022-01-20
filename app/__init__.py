@@ -1,5 +1,5 @@
 from flask import Flask
-from learn_app.config import Config
+from app.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -9,6 +9,6 @@ login = LoginManager(app)
 
 app.config.from_object(Config)
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)
 
-from learn_app import routes, model
+from app import models, routes
