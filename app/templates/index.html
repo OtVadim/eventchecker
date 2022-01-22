@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-7">
+        {% if current_user.username %}
+        <h3>Привет, {{ current_user.username }}!</h3>
+        {% else %}
+        <h3>Welcome to EventChecker</h3>
+        {% endif %}</div>
+        <div class="col-sm-5">
+          <form action="{{ url_for('index') }}" method="POST">
+          {{ form.hidden_tag() }}
+          {{ form.date.label }}
+          {{ form.date(class_="form-select") }}
+          {{ form.submit }}
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        {% for event in events_today %}
+        <div class="col-sm">
+          <div class="card" style="width: 18rem;">
+            {% if event.event_image %}
+            <img src="{{ event.event_image[0].url }}" class="card-img-top" alt="...">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Начало: {{ event.start_date }}</li>
+              <li class="list-group-item">Конец: {{ event.end_date }}</li>
+              <li class="list-group-item">Вход бесплатный: {{ event.is_free }}</li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    </section>
+{% endblock %}

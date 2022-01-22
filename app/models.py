@@ -1,6 +1,7 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from learn_app import db, login
+from app import db, login
 from flask_login import LoginManager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -30,7 +31,7 @@ class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey ('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey ('events.id'), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     text = db.Column(db.String, nullable=False)
     
 
@@ -40,35 +41,35 @@ class Comments(db.Model):
 class Events(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    publication_date = db.Column(db.DateTime, nullable=False)
+    publication_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     place_id = db.Column(db.Integer, db.ForeignKey ('place.id'), nullable=False)
     slug = db.Column(db.String, nullable=True)
     description = db.Column(db.Text, nullable=True)
     location = db.Column(db.String, nullable=False) #город проведения
     categories = db.Column(db.String, nullable=False)
     tags = db.Column(db.String, nullable=True)
-    age_restriction = db.Column(db.Integer, nullable=False)
+    age_restriction = db.Column(db.String, nullable=True)
     price = db.Column(db.Integer, nullable=True)
     is_free = db.Column(db.Boolean, nullable=True)
-    start_date = db.Column(db.DateTime, nullable=True)
-    start_time = db.Column(db.DateTime, nullable=True)
-    end_date = db.Column(db.DateTime, nullable=True)
-    end_time = db.Column(db.DateTime, nullable=True)
+    start_date = db.Column(db.Date, nullable=True, default=datetime.utcnow)
+    start_time = db.Column(db.Time, nullable=True, default=datetime.utcnow)
+    end_date = db.Column(db.Date, nullable=True, default=datetime.utcnow)
+    end_time = db.Column(db.Time, nullable=True, default=datetime.utcnow)
     is_continuous = db.Column(db.Boolean, nullable=True)
     event_comments = db.relationship('Comments', backref = 'event', lazy=True)
     event_image = db.relationship('EventImage', backref = 'image', lazy=True)
 
     def __repr__(self):
-        return "<Events {}>".format(self.title)
+        return "<Events {}>".format(self.title) 
 
 class Place(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     slug = db.Column(db.String, nullable=True)
     address = db.Column(db.String, nullable=False)
-    phone = db.Column(db.Integer, nullable=True)
-    latitude = db.Column(db.Integer, nullable=False)
-    longitude = db.Column(db.Integer, nullable=False)
+    phone = db.Column(db.String(20), nullable=True)
+    latitude = db.Column(db.String, nullable=False)
+    longitude = db.Column(db.String, nullable=False)
     event_place = db.relationship('Events', backref='place', lazy=True)
     
 
