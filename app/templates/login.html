@@ -1,21 +1,59 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>{{ page_title }}</title>
+      <meta charset="utf-8">
+      <title>{{ page_title }}</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </head>
+    
     <body>
-        <form action="" method="post">
-            {{ log_form.hidden_tag() }}
-            <p>
-                {{ log_form.username.label }}<br>{{ log_form.username() }}
-            </p>
-            <p>
-                {{ log_form.email.label }}<br>{{ log_form.email() }}
-            </p>
-            <p>
-                {{ log_form.password.label }}<br>{{ log_form.password() }}
-            </p>
-            <p>{{ log_form.submit }}</p>
-            <a href="{{ url_for('registration') }}">Registration</a>
-        </form>
+      
+        <section class="vh-100 bg-image" style="background-color: #2779e2;">
+          <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-5">
+                      <h2 class="text-uppercase text-center mb-5">Login here</h2>
+        
+                      <form action="" method="post">
+                        {{ log_form.hidden_tag() }}
+        
+                        <div class="form-outline mb-4">
+                          <input id={{ log_form.username.id }} name={{ log_form.username.name }} type="username" class="form-control form-control-lg" />
+                          <label class="form-label" for="form3Example1cg">Your Name</label>
+                        </div>
+        
+                        <div class="form-outline mb-4">
+                          <input id={{ log_form.email.id }} name={{ log_form.email.name }} type="email"  class="form-control form-control-lg" />
+                          <label class="form-label" for="form3Example3cg">Your Email</label>
+                        </div>
+        
+                        <div class="form-outline mb-4">
+                          <input id={{ log_form.password.id }} name={{ log_form.password.name }} type="password"  class="form-control form-control-lg" />
+                          <label class="form-label" for="form3Example4cg">Password</label>
+                        </div>
+                                             
+                        <div >
+                          <button {{ log_form.submit }} >Login</button>
+                        </div>
+        
+                        <p class="text-center text-muted mt-5 mb-0">Still not registred? <a href="{{ url_for('registration') }}" class="fw-bold text-body"><u>Registration here</u></a></p>
+        
+                      </form>
+        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+       
+        
     </body>
 </html>
