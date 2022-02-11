@@ -12,14 +12,20 @@ from app.forms import RegistrationForm, LoginForm, DateForm
 from werkzeug.urls import url_parse
 
 
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format="%d.%m.%Y"):
+    """Format a date time to (Default): d.m.YYYY"""
+    if value is None:
+        return ""
+    return value.strftime(format)
+
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     main_title = 'Главная'
-    events_today = Events.query.filter_by(start_date = date.today()).all()
-    form = DateForm()
-    upcoming_events = Events.query.filter(Events.start_date >= date.today()).filter(Events.start_date < date.today() + timedelta(days=30)).all()
-    form.date.choices.extend([(events.start_date, events.start_date) for events in upcoming_events])
+    events_today = Events.query.filter(Events.end_date >= date.today()).all()
+    upcoming_events = Events.query.order_by(Events.start_date).filter(Events.start_date <= date.today() + timedelta(days=30)).filter(Events.start_date >= date.today()).all()
+    form = DateForm(upcoming_events=upcoming_events)
     if form.validate_on_submit():
         events_today = Events.query.filter_by(start_date = form.date.data).all()
         return render_template('index.html', main_title=main_title, events_today=events_today, form=form)

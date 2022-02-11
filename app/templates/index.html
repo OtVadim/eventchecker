@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<link rel="stylesheet" href='/static/style.css' />
     <section>
     <div class="container">
       <div class="row">
@@ -29,12 +29,19 @@
             {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ event.title }}</h5>
-              <p class="card-text">{{ event.description }}</p>
+              <p class="card-text">{{ event.description|striptags }}</p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Начало: {{ event.start_date }}</li>
-              <li class="list-group-item">Конец: {{ event.end_date }}</li>
-              <li class="list-group-item">Вход бесплатный: {{ event.is_free }}</li>
+              {% if event.start_date %}
+              <li class="list-group-item">Начало: {{ event.start_date|datetimeformat }}
+                {{ event.start_time|datetimeformat('%H:%M') }}</li>
+              {% endif %}
+              {% if event.end_date %}
+              <li class="list-group-item">Конец: {{ event.end_date|datetimeformat }}</li>
+              {% endif %}
+              {% if event.is_free %}
+              <li class="list-group-item">Вход бесплатный</li>
+              {% endif %}
             </ul>
             <div class="card-body">
               <a href="#" class="card-link">Card link</a>

@@ -1,5 +1,5 @@
 from email.policy import default
-from datetime import date
+from datetime import date, datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms import validators
@@ -30,5 +30,9 @@ class RegistrationForm(FlaskForm):
                 raise ValidationError('Please use a different email address.')
 
 class DateForm(FlaskForm):
-    date = SelectField('Выберите дату', choices=[(date.today(), date.today())], default=date.today())
+    date = SelectField('Выберите дату', choices=[(date.today(), 'Сегодня')], default=date.today())
+    def __init__(self, upcoming_events=None):
+        super().__init__()  # calls the base initialisation and then...
+        if upcoming_events: 
+            self.date.choices.extend(list(dict.fromkeys([(events.start_date, events.start_date.strftime('%d.%m.%Y')) for events in upcoming_events])))
     submit = SubmitField('Выбрать')
