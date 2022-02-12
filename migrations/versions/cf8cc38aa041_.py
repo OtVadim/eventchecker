@@ -1,8 +1,8 @@
-"""models draft
+"""empty message
 
-Revision ID: 965493880244
-Revises: 9b7b1949532d
-Create Date: 2022-01-07 23:01:26.142699
+Revision ID: cf8cc38aa041
+Revises: 
+Create Date: 2022-01-28 19:16:37.747114
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '965493880244'
-down_revision = '9b7b1949532d'
+revision = 'cf8cc38aa041'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -23,11 +23,20 @@ def upgrade():
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('slug', sa.String(), nullable=True),
     sa.Column('address', sa.String(), nullable=False),
-    sa.Column('phone', sa.Integer(), nullable=True),
-    sa.Column('latitude', sa.Integer(), nullable=False),
-    sa.Column('longitude', sa.Integer(), nullable=False),
+    sa.Column('phone', sa.String(length=100), nullable=True),
+    sa.Column('latitude', sa.String(), nullable=False),
+    sa.Column('longitude', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('user',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('username', sa.String(length=64), nullable=True),
+    sa.Column('email', sa.String(length=70), nullable=True),
+    sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
+    op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
     op.create_table('events',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
@@ -38,13 +47,13 @@ def upgrade():
     sa.Column('location', sa.String(), nullable=False),
     sa.Column('categories', sa.String(), nullable=False),
     sa.Column('tags', sa.String(), nullable=True),
-    sa.Column('age_restriction', sa.Integer(), nullable=False),
+    sa.Column('age_restriction', sa.String(), nullable=True),
     sa.Column('price', sa.Integer(), nullable=True),
     sa.Column('is_free', sa.Boolean(), nullable=True),
-    sa.Column('start_date', sa.DateTime(), nullable=True),
-    sa.Column('start_time', sa.DateTime(), nullable=True),
-    sa.Column('end_date', sa.DateTime(), nullable=True),
-    sa.Column('end_time', sa.DateTime(), nullable=True),
+    sa.Column('start_date', sa.Date(), nullable=True),
+    sa.Column('start_time', sa.Time(), nullable=True),
+    sa.Column('end_date', sa.Date(), nullable=True),
+    sa.Column('end_time', sa.Time(), nullable=True),
     sa.Column('is_continuous', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['place_id'], ['place.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -74,5 +83,8 @@ def downgrade():
     op.drop_table('event_image')
     op.drop_table('comments')
     op.drop_table('events')
+    op.drop_index(op.f('ix_user_username'), table_name='user')
+    op.drop_index(op.f('ix_user_email'), table_name='user')
+    op.drop_table('user')
     op.drop_table('place')
     # ### end Alembic commands ###
