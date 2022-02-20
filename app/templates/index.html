@@ -2,34 +2,36 @@
 
 {% block content %}
 <link rel="stylesheet" href='/static/style.css' />
-    <section>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-7">
+    <section class="gradient-custom-3">
+    <div class="container" >
+      <div class="row" >
+        <div class="col-sm-7" style="margin-top: 40px">
         {% if current_user.username %}
         <h3>Привет, {{ current_user.username }}!</h3>
         {% else %}
-        <h3>Welcome to EventChecker</h3>
+        <h2>Welcome to EventChecker</h2>
         {% endif %}</div>
         <div class="col-sm-5">
           <form action="{{ url_for('index') }}" method="POST">
           {{ form.hidden_tag() }}
           {{ form.date.label }}
           {{ form.date(class_="form-select") }}
-          {{ form.submit }}
+          <div style="margin-top: 15px; margin-bottom: 20px">
+            {{ form.submit(class_="btn text-body btn-success gradient-custom-4 ") }}
+          </div>
           </form>
         </div>
       </div>
       <div class="row">
         {% for event in events_today %}
-        <div class="col-sm">
+        <div class="col-sm" style="margin-top: 15px; margin-bottom: 20px">
           <div class="card" style="width: 18rem;">
             {% if event.event_image %}
             <img src="{{ event.event_image[0].url }}" class="card-img-top" alt="...">
             {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ event.title }}</h5>
-              <p class="card-text">{{ event.description|striptags }}</p>
+              
             </div>
             <ul class="list-group list-group-flush">
               {% if event.start_date %}
@@ -44,7 +46,7 @@
               {% endif %}
             </ul>
             <div class="card-body">
-              <a href="#" class="card-link">Card link</a>
+              <a href="{{ url_for('specificevent', event_id=event.id) }}" class="card-link">Подробнее</a>
               <a href="#" class="card-link">Another link</a>
             </div>
           </div>

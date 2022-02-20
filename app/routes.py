@@ -1,5 +1,6 @@
 from asyncio import events
 from datetime import date, timedelta
+from multiprocessing import Event
 from flask import Flask, render_template, redirect, url_for, flash, request
 from sqlalchemy import func
 from flask_login.utils import login_required
@@ -30,6 +31,17 @@ def index():
         events_today = Events.query.filter_by(start_date = form.date.data).all()
         return render_template('index.html', main_title=main_title, events_today=events_today, form=form)
     return render_template('index.html', main_title=main_title, events_today=events_today, form=form)
+
+
+@app.route('/specificevent/<int:event_id>/', methods=['GET','POST'])
+def specificevent(event_id):
+    event = Events.query.get(event_id)
+    spec_title = 'событие'
+    if not event:
+        print('мероприятие прошло без вас')
+    
+    return render_template('specevent.html', spec_title=spec_title, event=event)
+
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
