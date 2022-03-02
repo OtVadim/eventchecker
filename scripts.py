@@ -7,7 +7,7 @@ from datetime import datetime, date
 def get_events(page, page_size):
   url = 'https://kudago.com/public-api/v1.4/events/'
   params = {
-    'lang': '',
+    'lang': 'ru',
     'location': 'msk',
     'page': page,
     'page_size': page_size,

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href='/static/style.css' />
+  <section>
+    <div class="container" >
+      <title> {{ spec_title }} </title>
+      <div style="margin: 15px 30px">
+          {{ event.title }}
+      </div>
+      <div class="col-lg">
+        <div class="card" ></div>
+        <img src="{{ event.event_image[0].url }}" class="card-img-top" height="100" alt="...">
+        
+      </div>
+      <div style="margin: 15px 30px">
+        <h3> Подробнее о событии </h3>
+        {{ event.description | safe }}
+      </div>
+      
+      <div style="margin: 15px 30px">
+        <h4> Успей посетить до </h4>
+        {{ event.end_date}}
+      </div>
+    </div>
+  </section>
+{% endblock %}
